@@ -2000,42 +2000,41 @@ function procesarRetiro() {
       elemento.style.display = "block";
     }
 
-    function ejecutarLogin() {
-      var ws = document.getElementById('loginWS').value;
-      var pin = document.getElementById('loginPIN').value;
+   async function ejecutarLogin() {
+    // 1. Obtener los valores de los inputs (ajusta los IDs según tu HTML)
+    const whatsapp = document.getElementById("inputWhatsapp").value; // o el ID que uses para el teléfono
+    const pin = document.getElementById("inputPin").value;
 
-      if (!ws || !pin) {
-        mostrarMensaje('msgLogin', 'Por favor, rellena todos los campos.', false);
-        return;
-      }
+    // Mostrar estado de carga
+    // (Asegúrate de cambiar el texto del botón o mostrar tu pantalla de verificación)
+    
+    try {
+        // 2. Hacer la petición fetch hacia tu Google Apps Script usando la URL global
+        const respuesta = await fetch(URL_BACKEND, {
+            method: "POST",
+            body: JSON.stringify({
+                action: "login",
+                whatsapp: whatsapp,
+                pin: pin
+            })
+        });
 
-      mostrarMensaje('msgLogin', 'Verificando...', true);
+        const resultado = await respuesta.json();
 
-      google.script.run
-        .withSuccessHandler(function(resultado) {
-          if (resultado.exito) {
-            mostrarMensaje('msgLogin', '¡Bienvenido ' + resultado.nombre + '!', true);
-            
-            usuarioLogueado.nombre = resultado.nombre;
-            usuarioLogueado.whatsapp = ws;
-            usuarioLogueado.saldo = parseFloat(resultado.saldo || 0);
+        if (resultado.success) {
+            console.log("¡Acceso concedido!");
+            // Aquí puedes redirigir al usuario o cargar su saldo/interfaz principal
+        } else {
+            alert("Número de WhatsApp o PIN incorrecto.");
+        }
 
-            document.getElementById('userName').innerText = resultado.nombre;
-            document.getElementById('userBalance').innerText = "C$ " + usuarioLogueado.saldo.toLocaleString('es-NI', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            
-            setTimeout(function() {
-              document.getElementById('uiBoxPrincipal').style.display = 'none';
-              document.getElementById('formLogin').style.display = 'none';
-              document.getElementById('overlay').style.display = 'none';
-              document.getElementById('vistaPerfil').style.display = 'flex';
-            }, 800);
-            
-          } else {
-            mostrarMensaje('msgLogin', resultado.mensaje, false);
-          }
-        })
-        .verificarLoginConSaldo(ws, pin);
+    } catch (error) {
+        console.error("Error al conectar con el servidor:", error);
+        alert("Hubo un error de conexión.");
+    } finally {
+        // Restaurar estado del botón o quitar pantalla de "Verificando..."
     }
+}
 
     function ejecutarRegistro() {
       var nombre = document.getElementById('regNombre').value;
