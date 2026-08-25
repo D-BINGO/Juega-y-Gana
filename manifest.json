@@ -1,0 +1,20 @@
+{
+  "name": "D-BINGO App",
+  "short_name": "D-BINGO",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#bf8f5a",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/RCdv5pQ2/logo-dbingo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.postimg.cc/RCdv5pQ2/logo-dbingo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
