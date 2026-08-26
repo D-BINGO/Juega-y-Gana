@@ -2003,42 +2003,50 @@ function procesarRetiro() {
       elemento.style.display = "block";
     }
 
-    function ejecutarLogin() {
-      var ws = document.getElementById('loginWS').value;
-      var pin = document.getElementById('loginPIN').value;
+ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/TU_SCRIPT_ID/exec";
 
-      if (!ws || !pin) {
-        mostrarMensaje('msgLogin', 'Por favor, rellena todos los campos.', false);
-        return;
-      }
+function ejecutarLogin() {
+  var ws = document.getElementById('loginWS').value;
+  var pin = document.getElementById('loginPIN').value;
 
-      mostrarMensaje('msgLogin', 'Verificando...', true);
+  if (!ws || !pin) {
+    mostrarMensaje('msgLogin', 'Por favor, rellena todos los campos.', false);
+    return;
+  }
 
-      google.script.run
-        .withSuccessHandler(function(resultado) {
-          if (resultado.exito) {
-            mostrarMensaje('msgLogin', '¡Bienvenido ' + resultado.nombre + '!', true);
-            
-            usuarioLogueado.nombre = resultado.nombre;
-            usuarioLogueado.whatsapp = ws;
-            usuarioLogueado.saldo = parseFloat(resultado.saldo || 0);
+  mostrarMensaje('msgLogin', 'Verificando...', true);
 
-            document.getElementById('userName').innerText = resultado.nombre;
-            document.getElementById('userBalance').innerText = "C$ " + usuarioLogueado.saldo.toLocaleString('es-NI', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            
-            setTimeout(function() {
-              document.getElementById('uiBoxPrincipal').style.display = 'none';
-              document.getElementById('formLogin').style.display = 'none';
-              document.getElementById('overlay').style.display = 'none';
-              document.getElementById('vistaPerfil').style.display = 'flex';
-            }, 800);
-            
-          } else {
-            mostrarMensaje('msgLogin', resultado.mensaje, false);
-          }
-        })
-        .verificarLoginConSaldo(ws, pin);
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'cors',
+    body: JSON.stringify({ accion: 'login', ws: ws, pin: pin })
+  })
+  .then(response => response.json())
+  .then(resultado => {
+    if (resultado.exito) {
+      mostrarMensaje('msgLogin', '¡Bienvenido ' + resultado.nombre + '!', true);
+
+      usuarioLogueado.nombre = resultado.nombre;
+      usuarioLogueado.whatsapp = ws;
+      usuarioLogueado.saldo = parseFloat(resultado.saldo || 0);
+
+      document.getElementById('userName').innerText = resultado.nombre;
+      document.getElementById('userBalance').innerText = "C$ " + usuarioLogueado.saldo.toLocaleString('es-NI', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+      setTimeout(function() {
+        document.getElementById('uiBoxPrincipal').style.display = 'none';
+        document.getElementById('formLogin').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('vistaPerfil').style.display = 'flex';
+      }, 800);
+    } else {
+      mostrarMensaje('msgLogin', resultado.mensaje, false);
     }
+  })
+  .catch(err => {
+    mostrarMensaje('msgLogin', 'Error de conexión con el servidor.', false);
+  });
+}
 
     function ejecutarRegistro() {
       var nombre = document.getElementById('regNombre').value;
