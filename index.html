@@ -2003,7 +2003,7 @@ function procesarRetiro() {
       elemento.style.display = "block";
     }
 
- const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOE8gsTsMDkb1BnQYuIGi9jqU2hjCYWB3IC0OK0pLSNB8Pv6N2_ACvCdg-1KcILV4b/exec";
+ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOE8gsTsMDkb1BnQYuIGi9jqU2hjCYWB3IC0OK0pLSNB8Pv6N2_ACvCdg-1KcILV4b/exec"; // Reemplaza por tu URL real
 
 function ejecutarLogin() {
   var ws = document.getElementById('loginWS').value;
@@ -2019,7 +2019,14 @@ function ejecutarLogin() {
   fetch(APPS_SCRIPT_URL, {
     method: 'POST',
     mode: 'cors',
-    body: JSON.stringify({ accion: 'login', ws: ws, pin: pin })
+    headers: {
+      'Content-Type': 'text/plain;charset=utf-8' // Clave para evitar bloqueos CORS
+    },
+    body: JSON.stringify({ 
+      accion: 'login', 
+      ws: ws, 
+      pin: pin 
+    })
   })
   .then(response => response.json())
   .then(resultado => {
@@ -2044,10 +2051,10 @@ function ejecutarLogin() {
     }
   })
   .catch(err => {
+    console.error("Detalle del error:", err);
     mostrarMensaje('msgLogin', 'Error de conexión con el servidor.', false);
   });
 }
-
     function ejecutarRegistro() {
       var nombre = document.getElementById('regNombre').value;
       var ws = document.getElementById('regWS').value;
