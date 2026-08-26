@@ -1966,50 +1966,18 @@ function procesarRetiro() {
 
     const MESES = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
-   function mostrarSeccion(idSeccion) {
-  // 1. Ocultar el contenedor principal o menú inicial si existe
-  const menuPrincipal = document.getElementById('uiBoxPrincipal');
-  if (menuPrincipal) {
-    menuPrincipal.style.display = 'none';
-  }
+  function mostrarSeccion(idSeccion) {
+      document.getElementById('menuPrincipal').style.display = 'none';
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById(idSeccion).style.display = 'block';
+    }
 
-  // 2. Ocultar todos los formularios o secciones
-  const secciones = ['formLogin', 'formRegistro', 'formInvitar', 'vistaPerfil'];
-  secciones.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
-  });
-
-  // 3. Mostrar la sección seleccionada y el overlay/fondo modal si aplica
-  const seccionObjetivo = document.getElementById(idSeccion);
-  if (seccionObjetivo) {
-    seccionObjetivo.style.display = 'block'; // o 'flex' según el diseño
-  }
-
-  const overlay = document.getElementById('overlay');
-  if (overlay) {
-    overlay.style.display = 'block';
-  }
-}
-
-function volverAlMenu(idSeccionActual) {
-  // Ocultar la sección actual
-  const seccionActual = document.getElementById(idSeccionActual);
-  if (seccionActual) {
-    seccionActual.style.display = 'none';
-  }
-
-  const overlay = document.getElementById('overlay');
-  if (overlay) {
-    overlay.style.display = 'none';
-  }
-
-  // Volver a mostrar el menú principal
-  const menuPrincipal = document.getElementById('uiBoxPrincipal');
-  if (menuPrincipal) {
-    menuPrincipal.style.display = 'block';
-  }
-}
+    function volverAlMenu(idSeccion) {
+      document.getElementById(idSeccion).style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('menuPrincipal').style.display = 'flex';
+      limpiarFormularios();
+    }
 
     function limpiarFormularios() {
       document.querySelectorAll('input').forEach(i => i.value = '');
