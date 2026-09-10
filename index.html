@@ -1,80 +1,101 @@
-<!DOCTYPE html>
+!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <title>D-BINGO</title>
 
+
+
   <!-- Configuración de PWA / App Instalable -->
+
   <link rel="manifest" href="manifest.json">
+
   <meta name="theme-color" content="#0d1b2a">
+
   <meta name="mobile-web-app-capable" content="yes">
+
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <link rel="apple-touch-icon" href="icono-192.png">
 
+
+
   <style>
+
     * {
+
       margin: 0;
+
       padding: 0;
+
       box-sizing: border-box;
+
     }
+
     html, body {
+
       width: 100%;
+
       height: 100%;
+
       overflow: hidden;
+
       background-color: #000;
+
     }
+
     iframe {
+
       width: 100%;
+
       height: 100%;
+
       border: none;
+
       display: block;
+
     }
-    
-    /* Pantalla de carga limpia usando fondo CSS */
-    #splash-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 50%;
-      height: 50%;
-      background-image: url('D-BINGO.jpg'); /* Asegúrate de que tu imagen se llame así y esté en la misma carpeta */
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      z-index: 9999;
-      transition: opacity 0.5s ease;
-    }
+
   </style>
+
 </head>
+
 <body>
 
-  <!-- Contenedor de la pantalla de carga -->
-  <div id="splash-screen"></div>
 
-  <!-- Tu aplicación original de Google Apps Script -->
+
+  <!-- Reemplaza la URL del src por la URL de tu Web App /exec -->
+
   <iframe src="https://script.google.com/macros/s/AKfycbw7WjSzpYMr3CzbJF3QDmKfQ1JaZTXK060jsOKxzxGYTRVdOsEV99NyH3DDwVCMGH-S/exec"></iframe>
 
-  <script>
-    // Ocultar la pantalla de carga después de 2.5 segundos
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const splash = document.getElementById('splash-screen');
-        if (splash) {
-          splash.style.opacity = '0';
-          setTimeout(() => splash.remove(), 500);
-        }
-      }, 2500);
-    });
 
-    // Registrar el Service Worker
+
+  <script>
+
+    // Registrar el Service Worker para mantener la capacidad de instalación PWA
+
     if ('serviceWorker' in navigator) {
+
       window.addEventListener('load', () => {
+
         navigator.serviceWorker.register('sw.js')
+
           .then(reg => console.log('Service Worker registrado con éxito', reg))
+
           .catch(err => console.error('Error al registrar Service Worker', err));
+
       });
+
     }
+
   </script>
+
 </body>
+
 </html>
