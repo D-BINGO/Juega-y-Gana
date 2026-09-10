@@ -30,21 +30,18 @@
       border: none;
       display: block;
     }
-    /* Estilos para la pantalla de carga (Splash Screen) */
-#splash-screen {
+    
+    /* Pantalla de carga limpia usando fondo CSS */
+    #splash-screen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('file:///C:/Users/HP/Downloads/WhatsApp%20Image%202026-09-10%20at%204.03.39%20PM.webp'); /* Cambia esto por tu archivo */
-      background-size: cover; /* Hace que la imagen cubra toda la pantalla */
-      background-position: center; /* Centra la imagen */
-      background-repeat: no-repeat; /* Evita que la imagen se repita en mosaico */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      background-image: url('fondo.webp'); /* Asegúrate de que tu imagen se llame así y esté en la misma carpeta */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       z-index: 9999;
       transition: opacity 0.5s ease;
     }
@@ -52,25 +49,25 @@
 </head>
 <body>
 
-  <!-- Imagen de carga inicial a pantalla completa -->
-  <img src="WhatsApp Image 2026-09-10 at 4.03.39 PM.webp" alt="D-BINGO Splash" id="splash-screen">
+  <!-- Contenedor de la pantalla de carga -->
+  <div id="splash-screen"></div>
 
   <!-- Tu aplicación original de Google Apps Script -->
   <iframe src="https://script.google.com/macros/s/AKfycbw7WjSzpYMr3CzbJF3QDmKfQ1JaZTXK060jsOKxzxGYTRVdOsEV99NyH3DDwVCMGH-S/exec"></iframe>
 
   <script>
-    // Ocultar la imagen de carga después de 2.5 segundos (2500 milisegundos)
+    // Ocultar la pantalla de carga después de 2.5 segundos
     window.addEventListener('load', () => {
       setTimeout(() => {
         const splash = document.getElementById('splash-screen');
         if (splash) {
           splash.style.opacity = '0';
-          setTimeout(() => splash.remove(), 500); // Remueve el elemento del DOM tras la animación
+          setTimeout(() => splash.remove(), 500);
         }
       }, 2500);
     });
 
-    // Registrar el Service Worker para mantener la capacidad de instalación PWA
+    // Registrar el Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js')
