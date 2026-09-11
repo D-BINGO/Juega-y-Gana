@@ -1,100 +1,101 @@
-<!DOCTYPE html>
+!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <title>D-BINGO</title>
 
+
+
   <!-- Configuración de PWA / App Instalable -->
+
   <link rel="manifest" href="manifest.json">
+
   <meta name="theme-color" content="#0d1b2a">
+
   <meta name="mobile-web-app-capable" content="yes">
+
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <link rel="apple-touch-icon" href="icono-192.png">
 
+
+
   <style>
+
     * {
+
       margin: 0;
+
       padding: 0;
+
       box-sizing: border-box;
+
     }
+
     html, body {
+
       width: 100%;
+
       height: 100%;
+
       overflow: hidden;
-      background-color: #0d1b2a; /* Color de fondo azul similar al de tu imagen */
+
+      background-color: #000;
+
     }
+
     iframe {
+
       width: 100%;
+
       height: 100%;
+
       border: none;
+
       display: block;
-    }
-    
-    /* Contenedor de la pantalla de carga para centrar la imagen */
-    #splash-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #00008B; /* Fondo azul de la pantalla de carga */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 0.5s ease;
+
     }
 
-    /* Tamaño y estilo de la imagen del centro */
-    #splash-screen img {
-      width: 180px;  /* Puedes aumentar o disminuir este valor (ej. 200px) */
-      height: 180px; /* Mantén el mismo valor que el width si es cuadrada, o usa 'auto' */
-      object-fit: contain;
-      margin-bottom: 20px;
-    }
-
-    /* Texto opcional debajo de la imagen */
-    #splash-screen h2 {
-      color: #ffffff;
-      font-family: sans-serif;
-      letter-spacing: 2px;
-      font-size: 24px;
-    }
   </style>
+
 </head>
+
 <body>
 
-  <!-- Pantalla de carga con imagen centrada y tamaño ajustable -->
-  <div id="splash-screen">
-    <img src="WhatsApp Image 2026-09-10 at 4.03.39 PM.webp" alt="D-BINGO Logo">
-    <h2>D-BINGO</h2>
-  </div>
+
 
   <!-- Reemplaza la URL del src por la URL de tu Web App /exec -->
+
   <iframe src="https://script.google.com/macros/s/AKfycbw7WjSzpYMr3CzbJF3QDmKfQ1JaZTXK060jsOKxzxGYTRVdOsEV99NyH3DDwVCMGH-S/exec"></iframe>
 
+
+
   <script>
-    // Ocultar la pantalla de carga suavemente después de 2.5 segundos
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const splash = document.getElementById('splash-screen');
-        if (splash) {
-          splash.style.opacity = '0';
-          setTimeout(() => splash.remove(), 500); // Elimina el elemento del DOM tras el desvanecimiento
-        }
-      }, 2500);
-    });
 
     // Registrar el Service Worker para mantener la capacidad de instalación PWA
+
     if ('serviceWorker' in navigator) {
+
       window.addEventListener('load', () => {
+
         navigator.serviceWorker.register('sw.js')
+
           .then(reg => console.log('Service Worker registrado con éxito', reg))
+
           .catch(err => console.error('Error al registrar Service Worker', err));
+
       });
+
     }
+
   </script>
+
 </body>
+
 </html>
